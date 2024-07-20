@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
 import { PlusIcon } from "./ui/icons/PlusIcon";
+import { Input } from "./ui/input";
 
 // Type definition for the password entry object.
 type PasswordEntry = {
@@ -51,7 +52,7 @@ const PasswordsCard = () => {
   };
 
   return (
-    <Card className="col-span-1 bg-card dark:bg-background">
+    <Card className="col-span-2 bg-card dark:bg-background">
       <CardHeader>
         <CardTitle>Password List</CardTitle>
         <CardDescription>View and manage your saved passwords.</CardDescription>
@@ -75,7 +76,7 @@ const PasswordsCard = () => {
             }}
           >
             <div className="mb-2">
-              <input
+              <Input
                 type="text"
                 name="website"
                 placeholder="Website"
@@ -86,7 +87,7 @@ const PasswordsCard = () => {
               />
             </div>
             <div className="mb-2">
-              <input
+              <Input
                 type="text"
                 name="username"
                 placeholder="Username"
@@ -97,7 +98,7 @@ const PasswordsCard = () => {
               />
             </div>
             <div className="mb-2">
-              <input
+              <Input
                 type="password"
                 name="password"
                 placeholder="Password"
