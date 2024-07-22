@@ -1,0 +1,11 @@
+{
+    "connection": {
+      "type": "pg",
+      "url": "postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
+    },
+    "entities": [
+      "./db/schema.ts"
+    ],
+    "synchronize": true
+  }
+  
