@@ -61,7 +61,6 @@ const GeneratorCard = () => {
         <div className="flex gap-6 items-center justify-between">
           <Label htmlFor="password-complexity">Complexity</Label>
           <Select
-            id="complexity"
             value={complexity}
             onValueChange={(value) => setComplexity(value)}
           >
