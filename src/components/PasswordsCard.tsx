@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -19,6 +19,7 @@ import {
 import { Button } from "./ui/button";
 import { PlusIcon } from "./ui/icons/PlusIcon";
 import { Input } from "./ui/input";
+import { createCredentials } from "@/db/uploadData";
 
 // Type definition for the password entry object.
 type PasswordEntry = {
@@ -45,11 +46,46 @@ const PasswordsCard = () => {
     setNewEntry((prevEntry) => ({ ...prevEntry, [name]: value }));
   };
 
-  const handleAddPassword = () => {
-    setPasswords((prevPasswords) => [...prevPasswords, newEntry]);
-    setNewEntry({ website: "", username: "", password: "" });
-    setShowForm(false);
+  const handleAddPassword = async () => {
+    try {
+      const response = await fetch('/api/credentials', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newEntry),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setPasswords((prevPasswords) => [...prevPasswords, newEntry]);
+        setNewEntry({ website: "", username: "", password: "" });
+        setShowForm(false);
+      } else {
+        console.error('Error:', result.error);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+
+
+  useEffect(() => {
+    const fetchPasswords = async () => {
+      try {
+        const response = await fetch('/api/getCredentials');
+        if (response.ok) {
+          const data = await response.json();
+          setPasswords(data);
+        } else {
+          console.error('Failed to fetch passwords');
+        }
+      } catch (error) {
+        console.error('Error fetching passwords:', error);
+      }
+    };
+
+    fetchPasswords();
+  }, []);
 
   return (
     <Card className="col-span-2 bg-card dark:bg-background">
@@ -124,8 +160,8 @@ const PasswordsCard = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {passwords.map((entry, index) => (
-              <TableRow key={index}>
+            {passwords.map((entry) => (
+              <TableRow key={entry.id}>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <span>{entry.website}</span>

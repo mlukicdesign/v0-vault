@@ -1,5 +1,6 @@
 import { insertCredentials } from '@/db/schema';
 import { createCredentials } from '@/db/uploadData';
+import bcrypt from 'bcrypt';
 
 async function main() {
     const newCredentials: insertCredentials = {
